@@ -1,4 +1,5 @@
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.util.*;
@@ -28,63 +29,67 @@ public class PokerHandTest {
     royalFlush = royalFlush();
   }
 
+  @Ignore @Test
+  public void testAddCards() {
+  }
+
   @Test
   public void testIsPair() {
+    System.out.println(pair);
     assertTrue(pair.isPair());
-    assertFalse(pair.isPair(twoPair));
-    assertFalse(pair.isPair(threeOfAKind));
+    assertFalse(straight.isPair());
   }
-//
-//  @Test
-//  public void testIsTwoPair() {
-//    assertTrue(PokerHand.isTwoPair(twoPair));
-//    assertFalse(PokerHand.isTwoPair(pair));
-//  }
-//
-//  @Test
-//  public void testIsThreeOfAKind() {
-//    assertTrue(PokerHand.isThreeOfAKind(threeOfAKind));
-//    assertFalse(PokerHand.isThreeOfAKind(pair));
-//  }
-//
-//  @Test
-//  public void testIsStraight() {
-//    assertTrue(PokerHand.isStraight(straight));
-//    assertFalse(PokerHand.isStraight(pair));
-//  }
-//
-//  @Test
-//  public void testIsFlush() {
-//    assertTrue(PokerHand.isFlush(flush));
-//    assertTrue(PokerHand.isFlush(pair));
-//  }
-//
-//  @Test
-//  public void testIsFullHouse() {
-//    assertTrue(PokerHand.isFullHouse(fullHouse));
-//    assertFalse(PokerHand.isFullHouse(straight));
-//  }
-//
-//  @Test
-//  public void testIsFourOfAKind() {
-//    assertTrue(PokerHand.isFourOfAKind(fourOfAKind));
-//    assertFalse(PokerHand.isFourOfAKind(fullHouse));
-//  }
-//
-//  @Test
-//  public void testIsStraightFlush() {
-//    assertTrue(PokerHand.isStraightFlush(straightFlush));
-//    assertFalse(PokerHand.isStraightFlush(straight));
-//    assertFalse(PokerHand.isStraightFlush(flush));
-//  }
-//
-//  @Test
-//  public void testIsRoyalFlush() {
-//    assertTrue(PokerHand.isRoyalFlush(royalFlush));
-//    assertFalse(PokerHand.isRoyalFlush(straight));
-//    assertFalse(PokerHand.isRoyalFlush(straightFlush));
-//    assertFalse(PokerHand.isRoyalFlush(flush));
-//  }
+
+  @Test
+  public void testIsTwoPair() {
+    assertTrue(twoPair.isTwoPair());
+    assertFalse(pair.isTwoPair());
+  }
+
+  @Test
+  public void testIsThreeOfAKind() {
+    assertTrue(threeOfAKind.isThreeOfAKind());
+    assertFalse(pair.isThreeOfAKind());
+  }
+
+  @Ignore @Test
+  public void testIsStraight() {
+    assertTrue(straight.isStraight());
+    assertFalse(pair.isStraight());
+  }
+
+  @Ignore @Test
+  public void testIsFlush() {
+    assertTrue(flush.isFlush());
+    assertTrue(pair.isFlush());
+  }
+
+  @Test
+  public void testIsFullHouse() {
+    assertTrue(fullHouse.isFullHouse());
+    assertFalse(threeOfAKind.isFullHouse());
+  }
+
+  @Test
+  public void testIsFourOfAKind() {
+    assertTrue(fourOfAKind.isFourOfAKind());
+    assertFalse(fullHouse.isFourOfAKind());
+  }
+
+  @Ignore @Test
+  public void testIsStraightFlush() {
+    assertTrue(straightFlush.isStraightFlush());
+    assertFalse(straight.isStraightFlush());
+    assertFalse(flush.isStraightFlush());
+  }
+
+  @Ignore @Test
+  public void testIsRoyalFlush() {
+    assertTrue(royalFlush.isRoyalFlush());
+    assertFalse(straight.isRoyalFlush());
+    assertFalse(flush.isRoyalFlush());
+    assertFalse(straightFlush.isRoyalFlush());
+  }
 
   private PokerHand pair() {
     ArrayList<Card> hand = new ArrayList<Card>();
@@ -94,6 +99,8 @@ public class PokerHandTest {
       hand.add(new Card("Diamonds", 7));
       hand.add(new Card("Hearts", 10));
       hand.add(new Card("Spades", 13));
+      hand.add(new Card("Spades", 5));
+      hand.add(new Card("Clubs", 9));
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
@@ -106,9 +113,11 @@ public class PokerHandTest {
     try {
       hand.add(new Card("Diamonds", 1));
       hand.add(new Card("Clubs", 1));
-      hand.add(new Card("Diamonds", 13));
       hand.add(new Card("Hearts", 10));
+      hand.add(new Card("Clubs", 10));
+      hand.add(new Card("Diamonds", 13));
       hand.add(new Card("Spades", 13));
+      hand.add(new Card("Clubs", 3));
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
@@ -121,9 +130,11 @@ public class PokerHandTest {
     try {
       hand.add(new Card("Diamonds", 1));
       hand.add(new Card("Clubs", 1));
-      hand.add(new Card("Diamonds", 7));
       hand.add(new Card("Hearts", 1));
+      hand.add(new Card("Diamonds", 7));
+      hand.add(new Card("Hearts", 8));
       hand.add(new Card("Spades", 13));
+      hand.add(new Card("Spades", 12));
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
@@ -140,6 +151,8 @@ public class PokerHandTest {
       hand.add(new Card("Diamonds", 3));
       hand.add(new Card("Hearts", 4));
       hand.add(new Card("Spades", 5));
+      hand.add(new Card("Spades", 10));
+      hand.add(new Card("Hearts", 11));
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
@@ -156,6 +169,8 @@ public class PokerHandTest {
       hand.add(new Card("Clubs", 7));
       hand.add(new Card("Clubs", 10));
       hand.add(new Card("Clubs", 13));
+      hand.add(new Card("Hearts", 2));
+      hand.add(new Card("Hearts", 4));
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
@@ -172,6 +187,8 @@ public class PokerHandTest {
       hand.add(new Card("Diamonds", 7));
       hand.add(new Card("Hearts", 1));
       hand.add(new Card("Spades", 7));
+      hand.add(new Card("Spades", 13));
+      hand.add(new Card("Hearts", 10));
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
@@ -188,6 +205,8 @@ public class PokerHandTest {
       hand.add(new Card("Diamonds", 7));
       hand.add(new Card("Hearts", 7));
       hand.add(new Card("Spades", 7));
+      hand.add(new Card("Spades", 5));
+      hand.add(new Card("Hearts", 11));
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
@@ -204,6 +223,8 @@ public class PokerHandTest {
       hand.add(new Card("Diamonds", 4));
       hand.add(new Card("Diamonds", 5));
       hand.add(new Card("Diamonds", 6));
+      hand.add(new Card("Clubs", 11));
+      hand.add(new Card("Clubs", 13));
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
@@ -220,6 +241,8 @@ public class PokerHandTest {
       hand.add(new Card("Hearts", 12));
       hand.add(new Card("Hearts", 13));
       hand.add(new Card("Hearts", 1));
+      hand.add(new Card("Spades", 4));
+      hand.add(new Card("Clubs", 5));
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }

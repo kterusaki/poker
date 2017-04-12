@@ -3,18 +3,42 @@ import java.util.*;
 public class PokerHand {
 
   private ArrayList<Card> hand;
-  private HashMap<Integer, ArrayList<Card>> countHash;
+  private HashMap<Integer, ArrayList<Card>> cardHash;
+  private PriorityQueue<ArrayList<Card>> cardCountPQ;
+
+  public PokerHand() {
+    hand = new ArrayList<>();
+    cardHash = new HashMap<>();
+    cardCountPQ = new PriorityQueue<>(new CollectionSizeComparator());
+  }
 
   public PokerHand(Collection<Card> cards) {
     hand = (ArrayList<Card>) cards;
+    cardHash = new HashMap<>();
+    cardCountPQ = new PriorityQueue<>(new CollectionSizeComparator());
+
+    for (Card card : hand) {
+      if (!cardHash.containsKey(card.getNum())) {
+        ArrayList<Card> equalNumCardArray = new ArrayList<>();
+        cardHash.put(card.getNum(), equalNumCardArray);
+        cardCountPQ.add(equalNumCardArray);
+      }
+
+      cardHash.get(card.getNum()).add(card);
+    }
   }
 
+  // TODO: Create method for adding additional cards to PokerHand
+  //       1) Card gets added to Poker Hand
+  //       2) Add to hand
+  //       3) Check key exists for number on card in cardHash
+  //       4) If key does not exist, create new arrayList and insert into cardHash
+  //       5) Insert same arrayList into PQ
 
-  public static boolean isPair(Collection<Card> hand) {
-    HashMap<Integer, ArrayList<Card>> countHash = initCountHash(hand);
-
-    for (Map.Entry<Integer, ArrayList<Card>> entry : countHash.entrySet()) {
-      if (entry.getValue().size() >= 2) {
+  public boolean isPair() {
+    Iterator<ArrayList<Card>> iter = cardCountPQ.iterator();
+    while (iter.hasNext()) {
+      if (iter.next().size() == 2) {
         return true;
       }
     }
@@ -22,84 +46,70 @@ public class PokerHand {
     return false;
   }
 
-
-
-
-  // TODO: Create new class that inherits from hashmap. Will be able to return the Key when containsValue is used
-  //       Will also be able to return the highest integer with count > 1
-  public static Collection<Card> getPair(Collection<Card> hand) {
-//    HashMap<Integer, ArrayList<Card>> countHash = initCountHash(hand);
-//
-//
-//    for (Map.Entry<Integer, Integer> entry : countHash.entrySet()) {
-//      Integer key = entry.getKey();
-//      Integer value = entry.getValue();
-//
-////      if (value == 2) {
-////
-////      }
-//    }
-    return hand;
-  }
-
-  public static boolean isTwoPair(Collection<Card> hand) {
-
-    return true;
-  }
-
-  public static boolean isThreeOfAKind(Collection<Card> c) {
-    return true;
-  }
-
-  public static boolean isStraight(Collection<Card> c) {
-    return true;
-  }
-
-  public static boolean isFlush(Collection<Card> c) {
-    return true;
-  }
-
-  public static boolean isFullHouse(Collection<Card> c) {
-    return true;
-  }
-
-  public static boolean isFourOfAKind(Collection<Card> c) {
-    return true;
-  }
-
-  public static boolean isStraightFlush(Collection<Card> c) {
-    return true;
-  }
-
-  public static boolean isRoyalFlush(Collection<Card> c) {
-    return true;
-  }
-
-  private static HashMap<String, ArrayList<Integer>> initHandHash(Collection<Card> hand) {
-    HashMap<String, ArrayList<Integer>> handHash = new HashMap<String, ArrayList<Integer>>();
-
-    for (Card c : hand) {
-      if (!handHash.containsKey(c.getSuit())) {
-        handHash.put(c.getSuit(), new ArrayList<Integer>());
+  public boolean isTwoPair() {
+    Iterator<ArrayList<Card>> iter = cardCountPQ.iterator();
+    int numPairs = 0;
+    while (iter.hasNext()) {
+      if (iter.next().size() == 2) {
+        numPairs++;
       }
-
-      handHash.get(c.getSuit()).add(c.getNum());
     }
 
-    return handHash;
+    return numPairs >= 2;
   }
 
-  private static HashMap<Integer, ArrayList<Card>> initCountHash(Collection<Card> hand) {
-    HashMap<Integer, ArrayList<Card>> countHash = new HashMap<Integer, ArrayList<Card>>();
+  public boolean isThreeOfAKind() {
+    Iterator<ArrayList<Card>> iter = cardCountPQ.iterator();
+    while (iter.hasNext()) {
+      if (iter.next().size() == 3) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  public boolean isStraight() {
+    return true;
+  }
+
+  public boolean isFlush() {
+    return true;
+  }
+
+  public boolean isFullHouse() {
+    return isThreeOfAKind() && isPair();
+  }
+
+  public boolean isFourOfAKind() {
+    Iterator<ArrayList<Card>> iter = cardCountPQ.iterator();
+    while (iter.hasNext()) {
+      if (iter.next().size() == 4) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  public boolean isStraightFlush() {
+    return true;
+  }
+
+  public boolean isRoyalFlush() {
+    return true;
+  }
+
+  @Override
+  public String toString() {
+    String handString = "-------------\n";
 
     for (Card card : hand) {
-      if (!countHash.containsKey(card.getNum())) {
-        countHash.put(card.getNum(), new ArrayList<Card>());
-      }
-
-      countHash.get(card.getNum()).add(card);
+      handString += card.getSuit() + " - " +  card.getNum() + "\n";
     }
 
-    return countHash;
+    handString += "-------------\n";
+
+    return handString;
   }
 }
